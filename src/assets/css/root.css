@@ -508,7 +508,7 @@
   }
   body.dark-mode #cs-navigation .cs-logo {
     /* makes it white */
-    filter: grayscale(1) brightness(1000%);
+    filter: invert(1);
   }
   body.dark-mode #cs-navigation .cs-line {
     background-color: #fff;
@@ -722,7 +722,7 @@
   }
   body.dark-mode #cs-navigation .cs-drop-icon {
     /* turns it white */
-    filter: grayscale(1) brightness(1000%);
+    filter: invert(1);
   }
 }
 /*-- -------------------------- -->
@@ -825,7 +825,7 @@
   }
   body.dark-mode #cs-navigation .cs-logo {
     /* makes it turn white */
-    filter: grayscale(1) brightness(1000%);
+    filter: invert(1);
   }
   body.dark-mode #cs-navigation .cs-li-link {
     color: var(--bodyTextColorWhite);

@@ -105,7 +105,7 @@
   }
   body.dark-mode #services-468 .cs-icon {
     /* makes icons turn grey and brighten them up */
-    filter: grayscale(1) brightness(1000%);
+    filter: grayscale(1) brightness(500%);
   }
   body.dark-mode #services-468 .cs-h3 {
     color: var(--bodyTextColorWhite);
@@ -531,7 +531,7 @@
     background-color: var(--medium);
   }
   body.dark-mode #services-448 .cs-icon {
-    filter: grayscale(1) brightness(2000%);
+    filter: grayscale(1) brightness(500%);
   }
   body.dark-mode #services-448 .cs-h3,
   body.dark-mode #services-448 .cs-item-text {
