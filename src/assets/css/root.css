@@ -29,7 +29,7 @@
     /* prevents padding from affecting height and width */
     box-sizing: border-box;
   }
-  .cs-topper {
+  .topper {
     font-size: var(--topperFontSize);
     line-height: 1.2em;
     text-transform: uppercase;
@@ -40,7 +40,7 @@
     margin-bottom: 0.25rem;
     display: block;
   }
-  .cs-title {
+  .title {
     font-size: var(--headerFontSize);
     font-weight: 900;
     line-height: 1.2em;
@@ -50,7 +50,7 @@
     color: var(--headerColor);
     position: relative;
   }
-  .cs-text {
+  .text {
     font-size: var(--bodyFontSize);
     line-height: 1.5em;
     text-align: inherit;
@@ -59,7 +59,7 @@
     margin: 0;
     color: var(--bodyTextColor);
   }
-  .cs-button-solid {
+  .button-solid {
     z-index: 1;
     position: relative;
     display: inline-block;
@@ -77,13 +77,13 @@
     transition-delay: 0.1s;
     text-align: center;
   }
-  .cs-button-solid:hover {
+  .button-solid:hover {
     color: #fff;
   }
-  .cs-button-solid:hover:before {
+  .button-solid:hover:before {
     width: 100%;
   }
-  .cs-button-solid:before {
+  .button-solid:before {
     z-index: -1;
     position: absolute;
     top: 0;
@@ -96,16 +96,16 @@
     width: 0;
     transition: width 0.3s;
   }
-  .cs-hide-on-mobile {
+  .hide-on-mobile {
     display: none;
   }
 }
 /* Desktop - 1024px */
 @media only screen and (min-width: 64rem) {
-  .cs-hide-on-mobile {
+  .hide-on-mobile {
     display: block;
   }
-  .cs-hide-on-desktop {
+  .hide-on-desktop {
     display: none;
   }
 }
@@ -211,45 +211,48 @@
 <--- -------------------------- -*/
 /* Mobile - 360px */
 @media only screen and (min-width: 0rem) {
-  body.dark-mode #dark-mode-toggle .cs-sun {
+  body.dark-mode #dark-mode-toggle .sun {
     opacity: 1;
     transform: translate(-50%, -50%);
   }
-  body.dark-mode #dark-mode-toggle .cs-moon {
+  body.dark-mode #dark-mode-toggle .moon {
     opacity: 0;
     transform: translate(-50%, -150%);
     fill: #fff;
   }
+  #navigation.active #dark-mode-toggle .moon {
+    fill: #fff;
+  }
   #dark-mode-toggle {
-    z-index: 1000;
-    position: absolute;
-    top: 0.625rem;
-    right: 4.375rem;
-    display: block;
-    border: none;
-    background: transparent;
-    height: 3rem;
     width: 3rem;
-    overflow: hidden;
+    height: 3rem;
     padding: 0;
+    background: transparent;
+    border: none;
+    display: block;
+    position: absolute;
+    right: 4.375rem;
+    bottom: 0.625rem;
+    z-index: 1000;
+    overflow: hidden;
   }
   #dark-mode-toggle img,
   #dark-mode-toggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 1.25rem;
-    width: 1.25rem;
     pointer-events: none;
   }
-  #dark-mode-toggle .cs-moon {
+  #dark-mode-toggle .moon {
     z-index: 2;
     transition: transform 0.3s, opacity 0.3s;
   }
-  #dark-mode-toggle .cs-sun {
-    z-index: 1;
+  #dark-mode-toggle .sun {
     opacity: 0;
+    z-index: 1;
     transform: translate(-50%, 100%);
     transition: transform 0.3s, opacity 0.3s;
   }
@@ -257,11 +260,11 @@
 /* Desktop - 1024px */
 @media only screen and (min-width: 64rem) {
   #dark-mode-toggle {
-    position: relative;
-    top: auto;
-    right: auto;
-    transform: none;
     margin: 0;
+    position: relative;
+    right: auto;
+    bottom: auto;
+    transform: none;
   }
   #dark-mode-toggle:hover {
     cursor: pointer;
@@ -270,92 +273,220 @@
 /*-- -------------------------- -->
 <---     Mobile Navigation      -->
 <--- -------------------------- -*/
+body,
+html {
+  /* reset margin and padding so there's no gap between the nav and the screen edges */
+  margin: 0;
+  padding: 0;
+}
+
 /* Mobile - 1023px */
 @media only screen and (max-width: 63.9375rem) {
-  body.cs-open {
+  body.open {
     overflow: hidden;
   }
-  #cs-navigation {
-    z-index: 10000;
-    position: fixed;
-    background-color: #fff;
+  #navigation {
     width: 100%;
-    /* prevents padding from affecting height and width */
+    /* prevents padding and border from affecting height and width */
     box-sizing: border-box;
     padding: 0.75rem 1rem;
-    /* remove the font family so the Stitch inherits the fonts from your global stylesheet */
-    font-family: "Roboto", "Arial", sans-serif;
+    background-color: #fff;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    position: fixed;
+    z-index: 10000;
   }
-  #cs-navigation .cs-container {
+  #navigation:after {
+    /* on hover green bar */
+    content: "";
+    width: 40%;
+    max-width: 9.125rem;
+    height: 100%;
+    background: var(--primary);
+    opacity: 1;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    z-index: -1;
+    transition: width 0.2s, max-width 0.3s, background-color 0.3s;
+  }
+  #navigation:before {
+    content: "";
+    width: 100%;
+    height: 0vh;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -11;
+    transition: height 0.5s, opacity 0.3s;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  #navigation.active:after {
+    width: 100%;
+    max-width: 100%;
+    background-color: #484848;
+  }
+  #navigation.active:before {
+    height: 150vh;
+    opacity: 1;
+  }
+  #navigation.active .top-bar {
+    z-index: initial;
+  }
+  #navigation.active .top-bar:before {
+    display: none;
+  }
+  #navigation.active .link {
+    color: var(--bodyTextColorWhite);
+  }
+  #navigation.active .ul-wrapper {
+    opacity: 1;
+    transform: scaleY(1);
+    transition-delay: 0.2s;
+  }
+  #navigation.active .li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #navigation.scroll .top-bar {
+    height: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+  #navigation.scroll .top-bar:before {
+    opacity: 0;
+  }
+  #navigation.scroll .toggle {
+    margin-top: 0;
+  }
+  #navigation .top-bar {
+    margin: 0;
+    padding: 0 0 0.75rem 0;
+    position: relative;
+    z-index: -3;
+    transition: height 0.3s, padding-bottom 0.3s, opacity 0.3s;
+  }
+  #navigation .top-bar:before {
+    /* grey line */
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #eff1f0;
+    opacity: 1;
+    display: block;
+    position: absolute;
+    right: -1rem;
+    bottom: 0;
+    z-index: -2;
+    transition: opacity 0.3s;
+  }
+  #navigation .logo {
+    width: 40%;
+    max-width: 9.125rem;
+    height: 100%;
+    /* prevents padding and border from affecting height and width */
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+  #navigation .logo img {
+    width: 100%;
+    height: 100%;
+    /* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
+    object-fit: contain;
+  }
+  #navigation .item {
+    list-style: none;
+    margin: 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
   }
-  #cs-navigation .cs-logo {
-    z-index: 10;
-    display: flex;
+  #navigation .remove {
+    display: none;
+  }
+  #navigation .picture {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+    background-color: #eff1f0;
+    border-radius: 50%;
+    display: none;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 0 0;
-    height: 100%;
-    max-width: 9.125rem;
-    width: 40%;
-    /* prevents padding from affecting height and width */
-    box-sizing: border-box;
-    padding: 0;
+    transition: background-color 0.3s;
   }
-  #cs-navigation .cs-logo img {
-    height: 100%;
-    width: 100%;
-    /* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
-    object-fit: contain;
-    /* places the image to the left edge of the parent */
-    object-position: left;
+  #navigation .icon {
+    width: 1rem;
+    height: auto;
+    display: block;
   }
-  #cs-navigation .cs-toggle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 0.25rem;
-    margin: 0 0 0 auto;
-    background-color: transparent;
-    height: clamp(2.75rem, 6vw, 3rem);
+  #navigation .header {
+    display: none;
+  }
+  #navigation .link {
+    font-size: 0.875rem;
+    line-height: 1.5em;
+    text-align: inherit;
+    text-decoration: none;
+    margin: 0;
+    color: var(--bodyTextColor);
+    display: block;
+    transition: color 0.3s;
+  }
+  #navigation .toggle {
     /* 44px - 48px */
     width: clamp(2.75rem, 6vw, 3rem);
+    height: clamp(2.75rem, 6vw, 3rem);
+    margin: 0.75rem 0 0 auto;
+    background-color: #484848;
+    border: none;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  #cs-navigation .cs-active .cs-line1 {
+  #navigation .active .line1 {
     top: 50%;
     transform: translate(-50%, -50%) rotate(225deg);
   }
-  #cs-navigation .cs-active .cs-line2 {
+  #navigation .active .line2 {
     top: 50%;
     transform: translate(-50%, -50%) translateY(0) rotate(-225deg);
     transform-origin: center;
   }
-  #cs-navigation .cs-active .cs-line3 {
-    bottom: 100%;
+  #navigation .active .line3 {
     opacity: 0;
+    bottom: 100%;
   }
-  #cs-navigation .cs-box {
-    position: relative;
-    /* 14px - 16px */
-    height: clamp(0.875rem, 1.5vw, 1rem);
+  #navigation .box {
     /* 24px - 28px */
     width: clamp(1.5rem, 2vw, 1.75rem);
+    /* 14px - 16px */
+    height: clamp(0.875rem, 1.5vw, 1rem);
+    position: relative;
   }
-  #cs-navigation .cs-line {
+  #navigation .line {
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 2px;
-    background-color: #1a1a1a;
-    height: 2px;
-    width: 100%;
   }
-  #cs-navigation .cs-line1 {
+  #navigation .line1 {
     top: 0;
     transition: transform 0.5s, top 0.3s, left 0.3s;
     animation-duration: 0.7s;
@@ -364,7 +495,7 @@
     animation-fill-mode: forwards;
     transform-origin: center;
   }
-  #cs-navigation .cs-line2 {
+  #navigation .line2 {
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     transition: top 0.3s, left 0.3s, transform 0.5s;
@@ -373,356 +504,179 @@
     animation-direction: normal;
     animation-fill-mode: forwards;
   }
-  #cs-navigation .cs-line3 {
+  #navigation .line3 {
     bottom: 0;
     transition: bottom 0.3s, opacity 0.3s;
   }
-  #cs-navigation .cs-ul-wrapper {
-    z-index: -1;
+  #navigation .ul-wrapper {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: inset rgba(0, 0, 0, 0.2) 0px 8px 24px;
+    opacity: 0;
     position: absolute;
     top: 100%;
-    left: auto;
-    right: 0;
-    opacity: 0;
-    transform: scaleX(0);
-    background-color: #fff;
-    height: 100vh;
+    left: 0;
+    z-index: -1;
     overflow: hidden;
+    transform: scaleY(0);
     transition: transform 0.4s, opacity 0.3s;
-    box-shadow: inset rgba(0, 0, 0, 0.2) 0px 8px 24px;
-    transform-origin: top right;
+    transform-origin: top;
   }
-  #cs-navigation .cs-ul {
+  #navigation .ul {
+    width: 100%;
+    height: auto;
+    max-height: 65vh;
+    margin: 0;
+    padding: 3rem 0 3rem 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-end;
-    margin: 0;
-    height: 65vh;
-    min-width: 40%;
-    width: auto;
-    overflow: scroll;
-    /* 28px - 40px */
-    padding: 3rem clamp(1.75rem, 3vw, 2.5rem) 2rem 4.375rem;
+    align-items: center;
     gap: 1.25rem;
+    overflow: scroll;
   }
-  #cs-navigation .cs-li {
+  #navigation .li {
+    text-align: center;
+    list-style: none;
+    width: 100%;
+    margin-right: 0;
     opacity: 0;
     /* transition from these values */
-    transform: translateX(-2.5rem);
-    margin-right: 0;
-    width: 100%;
-    list-style: none;
+    transform: translateY(-4.375rem);
     transition: transform 0.6s, opacity 0.9s;
-    text-align: right;
   }
-  #cs-navigation .cs-li:nth-of-type(1) {
+  #navigation .li:nth-of-type(1) {
     transition-delay: 0.05s;
   }
-  #cs-navigation .cs-li:nth-of-type(2) {
+  #navigation .li:nth-of-type(2) {
     transition-delay: 0.1s;
   }
-  #cs-navigation .cs-li:nth-of-type(3) {
+  #navigation .li:nth-of-type(3) {
     transition-delay: 0.15s;
   }
-  #cs-navigation .cs-li:nth-of-type(4) {
+  #navigation .li:nth-of-type(4) {
     transition-delay: 0.2s;
   }
-  #cs-navigation .cs-li:nth-of-type(5) {
+  #navigation .li:nth-of-type(5) {
     transition-delay: 0.25s;
   }
-  #cs-navigation .cs-li:nth-of-type(6) {
+  #navigation .li:nth-of-type(6) {
     transition-delay: 0.3s;
   }
-  #cs-navigation .cs-li:nth-of-type(7) {
+  #navigation .li:nth-of-type(7) {
     transition-delay: 0.35s;
   }
-  #cs-navigation .cs-li:nth-of-type(8) {
+  #navigation .li:nth-of-type(8) {
     transition-delay: 0.4s;
   }
-  #cs-navigation .cs-li:nth-of-type(9) {
+  #navigation .li:nth-of-type(9) {
     transition-delay: 0.45s;
   }
-  #cs-navigation .cs-li-link {
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    text-decoration: none;
+  #navigation .li-link {
     /* 16px - 24px */
     font-size: clamp(1rem, 2.5vw, 1.5rem);
     line-height: 1.2em;
+    text-decoration: none;
+    margin: 0;
     color: var(--headerColor);
+    display: inline-block;
+    position: relative;
   }
-  #cs-navigation .cs-li-link:before {
+  #navigation .li-link:before {
+    /* active state underline */
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    opacity: 1;
+    display: none;
     position: absolute;
     bottom: -0.125rem;
     left: 0;
-    /* active state underline */
-    content: "";
-    opacity: 1;
-    display: none;
-    background: currentColor;
-    height: 1px;
-    width: 100%;
   }
-  #cs-navigation .cs-li-link.cs-active:before {
+  #navigation .li-link.active:before {
     display: block;
   }
-  #cs-navigation .cs-button-solid {
+  #navigation .button-solid {
     display: none;
   }
-  #cs-navigation:before {
-    z-index: -11;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    /* black blurred overlay */
-    content: "";
-    opacity: 0;
-    display: block;
-    background: rgba(0, 0, 0, 0.6);
-    height: 100vh;
-    width: 0%;
-    transition: width 0.5s, opacity 0.3s;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-  }
-  #cs-navigation.cs-active .cs-ul-wrapper {
-    opacity: 1;
-    transform: scaleX(1);
-    transition-delay: 0.2s;
-  }
-  #cs-navigation.cs-active .cs-li {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  #cs-navigation.cs-active:before {
-    opacity: 1;
-    width: 100%;
-  }
 }
-/* Dark Mode */
-@media only screen and (max-width: 63.9375rem) {
-  body.dark-mode #cs-navigation {
-    background-color: var(--dark);
-  }
-  body.dark-mode #cs-navigation .cs-logo {
-    /* makes it white */
-    filter: invert(1);
-  }
-  body.dark-mode #cs-navigation .cs-line {
-    background-color: #fff;
-  }
-  body.dark-mode #cs-navigation .cs-ul-wrapper {
-    background-color: var(--medium);
-  }
-  body.dark-mode #cs-navigation .cs-li-link {
-    color: var(--bodyTextColorWhite);
-  }
-}
-/*-- -------------------------- -->
-<---     Navigation Dropdown    -->
-<--- -------------------------- -*/
-/* Mobile - 1023px */
-@media only screen and (max-width: 63.9375rem) {
-  #cs-navigation .cs-dropdown {
-    position: relative;
-    color: var(--bodyTextColorWhite);
-  }
-  #cs-navigation .cs-dropdown .cs-li-link {
-    position: relative;
-    transition: opacity 0.3s;
-  }
-  #cs-navigation .cs-dropdown.cs-active .cs-drop-ul {
-    visibility: visible;
-    opacity: 1;
-    transform: scale(1);
-    margin: 0.75rem 0 0 0;
-    height: auto;
-    padding: 1.5rem;
-  }
-  #cs-navigation .cs-dropdown.cs-active .cs-drop-link {
-    opacity: 1;
-  }
-  #cs-navigation .cs-dropdown-button {
-    border: none;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    cursor: pointer;
-    appearance: none;
-  }
-  #cs-navigation .cs-drop-icon {
-    position: absolute;
-    top: 50%;
-    right: -1.25rem;
-    transform: translateY(-50%);
-    height: auto;
-    width: 0.9375rem;
-  }
-  #cs-navigation .cs-drop-ul {
-    visibility: hidden;
-    opacity: 0;
-    transform: scale(0);
+/* Tablet - 650px - 1023px */
+@media only screen and (min-width: 40.625rem) and (max-width: 63.9375rem) {
+  #navigation .top-bar {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
-    margin: 0;
-    background-color: var(--primary);
-    height: 0;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    padding: 0 1.5rem 0 1.5rem;
-    transition: padding 0.3s, margin 0.3s, height 0.3s, opacity 0.3s, transform 0.3s, visibility 0.3s;
-    gap: 0.75rem;
-    transform-origin: top right;
+    flex-direction: row;
+    justify-content: flex-end;
   }
-  #cs-navigation .cs-drop-li {
-    list-style: none;
-    text-align: inherit;
-  }
-  #cs-navigation .cs-li-link.cs-drop-link {
-    /* 14px - 16px */
-    font-size: clamp(0.875rem, 2vw, 1.25rem);
-    color: #fff;
-  }
-}
-/* Desktop - 1024px */
-@media only screen and (min-width: 64rem) {
-  #cs-navigation .cs-dropdown {
+  #navigation .item {
     position: relative;
   }
-  #cs-navigation .cs-dropdown.cs-active, #cs-navigation .cs-dropdown:hover {
-    cursor: pointer;
-  }
-  #cs-navigation .cs-dropdown.cs-active .cs-drop-ul, #cs-navigation .cs-dropdown:hover .cs-drop-ul {
-    visibility: visible;
-    opacity: 1;
-    transform: scaleY(1);
-  }
-  #cs-navigation .cs-dropdown.cs-active .cs-drop-li, #cs-navigation .cs-dropdown:hover .cs-drop-li {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #cs-navigation .cs-dropdown-button {
-    border: none;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    cursor: pointer;
-    appearance: none;
-  }
-  #cs-navigation .cs-drop-icon {
-    display: inline-block;
-    height: auto;
-    width: 0.9375rem;
-  }
-  #cs-navigation .cs-drop-ul {
-    z-index: -100;
-    /* if you have 8 or more links in your dropdown nav, uncomment the columns property to make the list into 2 even columns. Change it to 3 or 4 if you need extra columns. Then remove the transition delays on the cs-drop-li so they don't have weird scattered animations */
-    position: absolute;
-    top: 100%;
-    visibility: hidden;
-    opacity: 0;
-    transform: scaleY(0);
-    border-bottom: 5px solid var(--primary);
-    margin: 0;
-    background-color: #fff;
-    min-width: 12.5rem;
-    overflow: hidden;
-    padding: 0;
-    transition: transform 0.3s, visibility 0.3s, opacity 0.3s;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 10px 16px;
-    transform-origin: top;
-  }
-  #cs-navigation .cs-drop-li {
-    opacity: 0;
-    transform: translateY(-0.625rem);
-    display: block;
-    height: auto;
-    width: 100%;
-    list-style: none;
-    text-decoration: none;
-    font-size: 1rem;
-    color: var(--bodyTextColor);
-    transition: opacity 0.6s, transform 0.6s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(1) {
-    transition-delay: 0.05s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(2) {
-    transition-delay: 0.1s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(3) {
-    transition-delay: 0.15s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(4) {
-    transition-delay: 0.2s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(5) {
-    transition-delay: 0.25s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(6) {
-    transition-delay: 0.3s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(7) {
-    transition-delay: 0.35s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(8) {
-    transition-delay: 0.4s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(9) {
-    transition-delay: 0.45s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(10) {
-    transition-delay: 0.5s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(11) {
-    transition-delay: 0.55s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(12) {
-    transition-delay: 0.6s;
-  }
-  #cs-navigation .cs-drop-li:nth-of-type(13) {
-    transition-delay: 0.65s;
-  }
-  #cs-navigation .cs-li-link.cs-drop-link {
-    display: block;
-    width: 100%;
-    /* prevents padding from affecting height and width */
-    box-sizing: border-box;
-    padding: 0.75rem;
-    white-space: nowrap;
-    text-decoration: none;
-    font-size: 1rem;
-    line-height: 1.5em;
-    color: var(--bodyTextColor);
-    transition: color 0.3s, background-color 0.3s;
-  }
-  #cs-navigation .cs-li-link.cs-drop-link:hover {
-    background-color: #f7f7f7;
-  }
-  #cs-navigation .cs-li-link.cs-drop-link:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: -4px;
-  }
-  #cs-navigation .cs-li-link.cs-drop-link:before {
+  #navigation .item:nth-of-type(2):after {
     display: none;
+  }
+  #navigation .item:after {
+    /* divider line */
+    content: "";
+    width: 1px;
+    height: 100%;
+    margin: 0 1rem;
+    background: #eff1f0;
+    opacity: 1;
+    display: block;
+    position: relative;
+  }
+  #navigation .picture {
+    display: flex;
+  }
+  #navigation .ul {
+    padding-top: 4.6875rem;
+    gap: 2rem;
+  }
+  #navigation .li-link {
+    font-size: 1.5rem;
   }
 }
 /* Dark Mode */
-@media only screen and (min-width: 0rem) {
-  body.dark-mode #cs-navigation .cs-drop-ul {
+@media only screen and (max-width: 63.9375rem) {
+  body.dark-mode #navigation {
     background-color: var(--dark);
   }
-  body.dark-mode #cs-navigation .cs-li-link.cs-drop-link:hover {
-    background-color: var(--medium);
+  body.dark-mode #navigation.active .picture {
+    background-color: var(--primaryLight);
   }
-  body.dark-mode #cs-navigation .cs-drop-icon {
-    /* turns it white */
-    filter: invert(1);
+  body.dark-mode #navigation .top-bar:before {
+    opacity: 0.5;
+  }
+  body.dark-mode #navigation .picture {
+    background-color: var(--accent);
+  }
+  body.dark-mode #navigation .item:after {
+    opacity: 0.5;
+  }
+  body.dark-mode #navigation .icon {
+    /* if current color is not black, turns icon white */
+    filter: grayscale(1) brightness(1000%);
+  }
+  body.dark-mode #navigation .link {
+    color: var(--bodyTextColorWhite);
+  }
+  body.dark-mode #navigation .ul-wrapper {
+    background-color: var(--dark);
+  }
+  body.dark-mode #navigation .ul-wrapper:before {
+    /* dark overlay */
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.2;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  body.dark-mode #navigation .li-link {
+    color: var(--bodyTextColorWhite);
   }
 }
 /*-- -------------------------- -->
@@ -730,107 +684,290 @@
 <--- -------------------------- -*/
 /* Small Desktop - 1024px */
 @media only screen and (min-width: 64rem) {
-  #cs-navigation {
-    z-index: 10000;
-    position: fixed;
-    background-color: #fff;
+  #navigation {
     width: 100%;
-    /* prevents padding from affecting height and width */
+    /* prevents padding and border from affecting height and width */
     box-sizing: border-box;
-    padding: 0 1rem;
-    /* remove the font family so the Stitch inherits the fonts from your global stylesheet */
-    font-family: "Roboto", "Arial", sans-serif;
+    padding: 1rem 1rem 0 1rem;
+    background-color: #fff;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    position: fixed;
+    z-index: 10000;
+    transition: padding-top 0.3s;
   }
-  #cs-navigation .cs-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: auto;
-    max-width: 80rem;
-    width: 100%;
-    gap: 1.5rem;
+  #navigation.scroll {
+    padding-top: 0;
   }
-  #cs-navigation .cs-toggle {
+  #navigation.scroll .top-bar {
+    height: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-3.125rem);
+  }
+  #navigation.scroll .top-bar:before {
+    width: 0;
+  }
+  #navigation.scroll .toggle {
+    margin-top: 0;
+  }
+  #navigation .toggle {
     display: none;
   }
-  #cs-navigation .cs-logo {
-    z-index: 100;
+  #navigation .logo {
+    width: 18.4%;
+    max-width: 20rem;
+    height: 100%;
+    /* prevents padding and border from affecting height and width */
+    box-sizing: border-box;
+    /* 32px - 48px */
+    padding: 1rem clamp(2rem, 3vw, 3rem);
+    background-color: var(--primary);
     display: flex;
     justify-content: center;
     align-items: center;
-    /* margin-right auto pushes everything away from it to the right */
-    margin: 0 auto 0 0;
-    height: 4.0625rem;
-    max-width: 21.875rem;
-    width: 18.4%;
-    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
   }
-  #cs-navigation .cs-logo img {
-    height: 100%;
+  #navigation .logo img {
     width: 100%;
+    height: 100%;
     /* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
     object-fit: contain;
   }
-  #cs-navigation .cs-ul {
+  #navigation .top-bar {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 1rem 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    transition: height 0.3s, opacity 0.3s, padding-bottom 0.3s, margin-bottom 0.3s, transform 0.3s;
+  }
+  #navigation .top-bar:before {
+    /* grey line */
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #eff1f0;
+    opacity: 1;
+    display: block;
+    position: absolute;
+    right: -1rem;
+    bottom: 0;
+    z-index: -2;
+    transition: width 0.3s;
+  }
+  #navigation .item {
+    list-style: none;
+    margin: 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
+  }
+  #navigation .item:last-of-type:after {
+    display: none;
+  }
+  #navigation .item:hover .picture {
+    transform: scale(1.1);
+  }
+  #navigation .item:after {
+    /* divider line */
+    content: "";
+    width: 1px;
+    height: 3rem;
+    /* 24px - 44px */
+    margin: 0 clamp(1.5rem, 5vw, 2.75rem);
+    background: #eff1f0;
+    opacity: 1;
+    display: block;
+    position: relative;
+  }
+  #navigation .picture {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+    background-color: #eff1f0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+  }
+  #navigation .icon {
+    width: 1.5rem;
+    height: auto;
+    display: block;
+  }
+  #navigation .header {
+    font-size: 1rem;
+    font-weight: 700;
     margin: 0;
+    color: var(--headerColor);
+    display: block;
+  }
+  #navigation .link {
+    font-size: 0.875rem;
+    line-height: 1.5em;
+    text-align: inherit;
+    text-decoration: none;
+    margin: 0;
+    color: var(--bodyTextColor);
+    display: block;
+    transition: color 0.3s;
+  }
+  #navigation .link:hover {
+    text-decoration: underline;
+  }
+  #navigation .bottom-bar {
     width: 100%;
+    /* prevents padding and border from affecting height and width */
+    box-sizing: border-box;
+    /* 235px - 420px */
+    padding: 0 0 0 clamp(14.6875rem, 23vw, 26.25rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  #navigation .ul {
+    width: 100%;
+    margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     /* 20px - 36px */
     gap: clamp(1.25rem, 2.6vw, 2.25rem);
   }
-  #cs-navigation .cs-li {
-    padding: 2rem 0;
+  #navigation .li {
     list-style: none;
+    padding: 2rem 0;
     /* prevent flexbox from squishing it */
     flex: none;
   }
-  #cs-navigation .cs-li-link {
-    position: relative;
-    display: block;
-    margin: 0;
-    text-decoration: none;
+  #navigation .li:last-of-type {
+    /* pushes the button to the far roght */
+    margin-left: auto;
+    padding: 0;
+  }
+  #navigation .li-link {
     /* 14px - 16px */
     font-size: clamp(0.875rem, 1vw, 1rem);
     line-height: 1.5em;
+    text-decoration: none;
+    margin: 0;
     color: var(--bodyTextColor);
+    display: block;
+    position: relative;
   }
-  #cs-navigation .cs-li-link:hover:before {
+  #navigation .li-link:hover:before {
     width: 100%;
   }
-  #cs-navigation .cs-li-link:before {
+  #navigation .li-link.active:before {
+    width: 100%;
+  }
+  #navigation .li-link:before {
+    /* active state underline */
+    content: "";
+    width: 0%;
+    height: 2px;
+    background: var(--primary);
+    opacity: 1;
+    display: block;
     position: absolute;
     bottom: 0rem;
     left: 0;
-    /* active state underline */
-    content: "";
-    opacity: 1;
-    display: block;
-    background: var(--primary);
-    height: 2px;
-    width: 0%;
     transition: width 0.3s;
   }
-  #cs-navigation .cs-li-link.cs-active:before {
+  #navigation .button-solid {
+    font-size: 1rem;
+    font-weight: 700;
+    /* 46px - 56px */
+    line-height: clamp(2.875em, 5.5vw, 3.5em);
+    text-align: center;
+    text-decoration: none;
+    min-width: 9.375rem;
+    margin: 0;
+    /* prevents padding from adding to the width */
+    box-sizing: border-box;
+    padding: 0 1.5rem;
+    color: #fff;
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+  }
+  #navigation .button-solid:before {
+    content: "";
+    width: 0%;
+    height: 100%;
+    background: #000;
+    opacity: 1;
+    border-radius: 0.25rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: width 0.3s;
+  }
+  #navigation .button-solid:hover:before {
     width: 100%;
+  }
+  #navigation .nav-button {
+    margin-left: auto;
+    border-radius: 0;
   }
 }
 /* Dark Mode */
 @media only screen and (min-width: 64rem) {
-  body.dark-mode #cs-navigation {
+  body.dark-mode #navigation {
     background-color: var(--dark);
   }
-  body.dark-mode #cs-navigation .cs-logo {
+  body.dark-mode #navigation .top-bar:before {
+    opacity: 0.5;
+  }
+  body.dark-mode #navigation .logo {
+    background-color: var(--medium);
+  }
+  body.dark-mode #navigation .picture {
+    background-color: var(--accent);
+  }
+  body.dark-mode #navigation .item:after {
+    opacity: 0.5;
+  }
+  body.dark-mode #navigation .icon {
+    /* if current color is not black, turns icon white */
+    filter: grayscale(1) brightness(1000%);
+  }
+  body.dark-mode #navigation .link,
+  body.dark-mode #navigation .header,
+  body.dark-mode #navigation .li-link {
+    color: var(--bodyTextColorWhite);
+  }
+  body.dark-mode #navigation .li-link:before {
+    background-color: var(--primaryLight);
+  }
+}
+/* Dark Mode */
+@media only screen and (min-width: 64rem) {
+  body.dark-mode #navigation {
+    background-color: var(--dark);
+  }
+  body.dark-mode #navigation .logo {
     /* makes it turn white */
     filter: invert(1);
   }
-  body.dark-mode #cs-navigation .cs-li-link {
+  body.dark-mode #navigation .li-link {
     color: var(--bodyTextColorWhite);
   }
-  body.dark-mode #cs-navigation .cs-li-link:before {
+  body.dark-mode #navigation .li-link:before {
     background-color: var(--primaryLight);
   }
 }
@@ -1143,7 +1280,7 @@
     display: flex;
     justify-content: center;
   }
-  #footer .right-section .cs-button-solid {
+  #footer .right-section .button-solid {
     margin: 0;
     height: 3.3125rem;
     width: 15.625rem;

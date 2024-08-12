@@ -1,8 +1,8 @@
 class CS_GalleryFilter {
-	filtersSelector = '.cs-button';
-	galleriesSelector = '.cs-gallery';
-	activeClass = 'cs-active';
-	hiddenClass = 'cs-hidden';
+	filtersSelector = '.button';
+	galleriesSelector = '.gallery';
+	activeClass = 'active';
+	hiddenClass = 'hidden';
 
 	constructor() {
 		this.$galleries = document.querySelectorAll(this.galleriesSelector);
